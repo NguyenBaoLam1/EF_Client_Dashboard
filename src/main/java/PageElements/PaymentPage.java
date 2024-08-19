@@ -73,10 +73,11 @@ public class PaymentPage extends BasePage {
         click(CONFIRM);
         click(SIGN_UP_LINK);
     }
+    public String randomNumber = generateRandomNumber();
     public void signUpNewAccount()
     {
         sendKeys(FIRST_NAME, "84atd");
-        sendKeys(LAST_NAME, generateRandomNumber());
+        sendKeys(LAST_NAME, randomNumber);
         sendKeys(PASSWORD, "Pass1234!");
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
         wait.until(ExpectedConditions.elementToBeClickable(SIGN_UP_BUTTON));
@@ -84,9 +85,9 @@ public class PaymentPage extends BasePage {
             if (isErrorMessageVisible()) {
                 String email;
                 do {
-                    email = "lamnguyenbao+85atd" + generateRandomNumber() + "@everfit.io";
+                    email = "lamnguyenbao+85atd" + randomNumber + "@everfit.io";
                     clearAndEnterText(EMAIL, email);
-                    clearAndEnterText(LAST_NAME, generateRandomNumber());
+                    clearAndEnterText(LAST_NAME, randomNumber);
                     click(SIGN_UP_BUTTON);
                 } while (isErrorMessageVisible());
             }

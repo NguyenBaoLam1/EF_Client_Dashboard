@@ -31,7 +31,6 @@ public class BasePage {
     }
 
     protected void click(By elementLocator) {
-        sleep(500);
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
         element.click();
     }
