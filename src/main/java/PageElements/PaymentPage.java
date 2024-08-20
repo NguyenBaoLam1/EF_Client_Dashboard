@@ -37,6 +37,9 @@ public class PaymentPage extends BasePage {
     private final By PASSWORD = By.xpath("//input[@name='password']");
     private final By SIGN_UP_BUTTON = By.xpath("//button[text()='Sign up']");
     private final By SUCCESS = By.xpath("//h4[text()='Success!']");
+
+    private final By LOGIN_LINK = By.xpath("//a[text()='Login']");
+    private final By LOGIN_BUTTON = By.xpath("//button[text()='Log in']");
     private final By ERROR_DUPLICATE_EMAIL = By.xpath("//div[text()='Your account is already registered. Please log in or sign up with another email.']");
     public void enterPersonalDetails(String email) {
         sendKeys(YOUR_NAME, "Name");
