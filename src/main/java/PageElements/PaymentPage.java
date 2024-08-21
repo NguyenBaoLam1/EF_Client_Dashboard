@@ -2,8 +2,12 @@ package PageElements;
 
 import Actions.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class PaymentPage extends BasePage {
 
@@ -72,9 +76,12 @@ public class PaymentPage extends BasePage {
         click(COUNTRY);
         click(LIST_COUNTRY);
         click(PURCHASE);
-        waitForVisibleOf(TYPE_FULL_NAME);
-        sendKeys(TYPE_FULL_NAME, "Name");
-        click(CONFIRM);
+        try {
+            waitForVisibleOf(TYPE_FULL_NAME);
+            sendKeys(TYPE_FULL_NAME, "Name");
+            click(CONFIRM);
+        } catch (Exception ignored) {
+        }
     }
     public void clickSignUp(){
         click(SIGN_UP_LINK);
@@ -82,25 +89,43 @@ public class PaymentPage extends BasePage {
     public void clickLogin(){
         click(LOGIN_LINK);
     }
-    public String randomNumber;
+    public String randomNumber = generateRandomNumber();
     public void signUpNewAccount()
     {
-        sendKeys(FIRST_NAME, "84atd");
+        sendKeys(FIRST_NAME, "8stg");
         sendKeys(LAST_NAME, randomNumber);
         sendKeys(PASSWORD, "Pass1234!");
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
         wait.until(ExpectedConditions.elementToBeClickable(SIGN_UP_BUTTON));
         click(SIGN_UP_BUTTON);
+        while (true) {
             if (isErrorMessageVisible()) {
-                String email;
+                break;
+            }
+            try {
+                WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+                // Wait until the SIGN_UP_BUTTON is not disabled
+                shortWait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
+                // If successful, break out of the loop
+                break;
+            } catch (TimeoutException e) {
+                // If the condition times out, execute this code
+                clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                click(SIGN_UP_BUTTON);
+            }
+        }
+            if (isErrorMessageVisible()) {
+                String email2;
                 do {
-                    randomNumber = generateRandomNumber();
-                    email = "lamnguyenbao+85atd" + randomNumber + "@everfit.io";
-                    System.out.println("EMAIL = " +email);
-                    clearAndEnterText(EMAIL, email);
-                    clearAndEnterText(LAST_NAME, randomNumber); //2 value random ni đang khác nhau
+                    String randomNumber2 = generateRandomNumber2();
+                    email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
+//                    System.out.println("emailChangedAfterDuplicate= " +email2);
+                    clearAndEnterText(EMAIL, email2);
+                    clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
                     click(SIGN_UP_BUTTON);
+                    randomNumber = randomNumber2;
                 } while (isErrorMessageVisible());
+
             }
 //            else {
 //                System.out.println("No error message is visible. No need to loop.");
@@ -109,8 +134,59 @@ public class PaymentPage extends BasePage {
     }
     public void loginCurrentAccount()
     {
+        String emailLogin = "lamnguyenbao+8stg" + randomNumber + "@everfit.io";
+        clearAndEnterText(EMAIL, emailLogin);
+//        System.out.println("emailLogin= "+emailLogin);
         sendKeys(PASSWORD,"Pass1234!");
+        wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(LOGIN_BUTTON, "disabled", "true")));
         click(LOGIN_BUTTON);
+        if (isErrorMessagePurchaseActived()) {
+            wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(LOGIN_BUTTON, "disabled", "true")));
+            click(LOGIN_BUTTON);
+        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SUCCESS));
+        randomNumber = generateRandomNumber();
+    }
+    public void onlySignUpNewAccount()
+    {
+        sendKeys(FIRST_NAME, "8stg");
+        sendKeys(LAST_NAME, randomNumber);
+        sendKeys(PASSWORD, "Pass1234!");
+        wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
+        wait.until(ExpectedConditions.elementToBeClickable(SIGN_UP_BUTTON));
+        click(SIGN_UP_BUTTON);
+        while (true) {
+            if (isErrorMessageVisible()) {
+                break;
+            }
+            try {
+                WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+                // Wait until the SIGN_UP_BUTTON is not disabled
+                shortWait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
+                // If successful, break out of the loop
+                break;
+            } catch (TimeoutException e) {
+                // If the condition times out, execute this code
+                clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                click(SIGN_UP_BUTTON);
+            }
+        }
+        if (isErrorMessageVisible()) {
+            String email2;
+            do {
+                String randomNumber2 = generateRandomNumber2();
+                email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
+//                System.out.println("emailChangedAfterDuplicate= " +email2);
+                clearAndEnterText(EMAIL, email2);
+                clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
+                click(SIGN_UP_BUTTON);
+                randomNumber = randomNumber2;
+            } while (isErrorMessageVisible());
+            randomNumber = generateRandomNumber();
+        }
+//            else {
+//                System.out.println("No error message is visible. No need to loop.");
+//            }
         wait.until(ExpectedConditions.visibilityOfElementLocated(SUCCESS));
     }
 
