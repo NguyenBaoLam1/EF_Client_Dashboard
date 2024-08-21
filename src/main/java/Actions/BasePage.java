@@ -34,6 +34,11 @@ public class BasePage {
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
         element.click();
     }
+    protected void clickEditTime(By locator, int timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        element.click();
+    }
 
     protected void switchToFrame(By frameLocator) {
         WebElement frame = driver.findElement(frameLocator);
@@ -66,7 +71,7 @@ public class BasePage {
 
     public String generateRandomNumber() {
         Random random = new Random();
-        int randomNumber = random.nextInt(999) + 1; // Generates a random number between 1 and 999
+        int randomNumber = random.nextInt(2) + 1; // Generates a random number between 1 and 999
         return String.valueOf(randomNumber);
     }
 
@@ -79,11 +84,21 @@ public class BasePage {
             return false; // Error message is not visible
         }
     }
+    public boolean isErrorMessageMPVisible() {
+        By errorMessageLocator = By.xpath("//p[text()='This email has already been used.']");
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
+            return true; // Error message is visible
+        } catch (Exception e) {
+            return false; // Error message is not visible
+        }
+    }
 
     protected void clearData(By elementLocator) {
         WebElement element = driver.findElement(elementLocator);
         element.clear();
     }
+
     protected void clearAndEnterText(By elementLocator, String text) {
         WebElement element = driver.findElement(elementLocator);
         element.click(); // Focus on the element
@@ -91,14 +106,24 @@ public class BasePage {
         element.sendKeys(Keys.BACK_SPACE); // Delete all selected text
         element.sendKeys(text); // Enter the new text
     }
+
     public void switchToWindow(WebDriver driver, int windowIndex) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> d.getWindowHandles().size() > 1);
         // Get all window handles
         List<String> windowHandles = new ArrayList<>(driver.getWindowHandles());
+
+        // Ensure the index is within bounds
+        for (int i = 0; i < windowHandles.size(); i++) {
+            driver.switchTo().window(windowHandles.get(i));
+            System.out.println("Window " + i + " Title: " + driver.getTitle());
+        }
 
         // Ensure the index is within bounds
         if (windowIndex >= 0 && windowIndex < windowHandles.size()) {
             // Switch to the specified window
             driver.switchTo().window(windowHandles.get(windowIndex));
+            System.out.println("Switched to window index: " + windowIndex);
         } else {
             System.out.println("Invalid window index: " + windowIndex);
         }

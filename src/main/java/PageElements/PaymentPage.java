@@ -41,6 +41,7 @@ public class PaymentPage extends BasePage {
     private final By LOGIN_LINK = By.xpath("//a[text()='Login']");
     private final By LOGIN_BUTTON = By.xpath("//button[text()='Log in']");
     private final By ERROR_DUPLICATE_EMAIL = By.xpath("//div[text()='Your account is already registered. Please log in or sign up with another email.']");
+
     public void enterPersonalDetails(String email) {
         sendKeys(YOUR_NAME, "Name");
         sendKeys(YOUR_EMAIL, email);
@@ -74,9 +75,14 @@ public class PaymentPage extends BasePage {
         waitForVisibleOf(TYPE_FULL_NAME);
         sendKeys(TYPE_FULL_NAME, "Name");
         click(CONFIRM);
+    }
+    public void clickSignUp(){
         click(SIGN_UP_LINK);
     }
-    public String randomNumber = generateRandomNumber();
+    public void clickLogin(){
+        click(LOGIN_LINK);
+    }
+    public String randomNumber;
     public void signUpNewAccount()
     {
         sendKeys(FIRST_NAME, "84atd");
@@ -88,9 +94,11 @@ public class PaymentPage extends BasePage {
             if (isErrorMessageVisible()) {
                 String email;
                 do {
+                    randomNumber = generateRandomNumber();
                     email = "lamnguyenbao+85atd" + randomNumber + "@everfit.io";
+                    System.out.println("EMAIL = " +email);
                     clearAndEnterText(EMAIL, email);
-                    clearAndEnterText(LAST_NAME, randomNumber);
+                    clearAndEnterText(LAST_NAME, randomNumber); //2 value random ni đang khác nhau
                     click(SIGN_UP_BUTTON);
                 } while (isErrorMessageVisible());
             }
@@ -99,4 +107,11 @@ public class PaymentPage extends BasePage {
 //            }
             wait.until(ExpectedConditions.visibilityOfElementLocated(SUCCESS));
     }
+    public void loginCurrentAccount()
+    {
+        sendKeys(PASSWORD,"Pass1234!");
+        click(LOGIN_BUTTON);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SUCCESS));
+    }
+
 }

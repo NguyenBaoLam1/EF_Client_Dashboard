@@ -24,17 +24,12 @@ public class PaymentTest {
     private PaymentPage paymentPage;
     private PaymentPageMP paymentPageMP;
     private final List<String> websiteURLs = Stream.of(
-                    "SB553384",
-                    "YA328378",
-                    "FB304592",
-                    "IO675356",
-                    "FL052337",
-                    "AI547677",
-                    "LY543460",
-                    "OL663313",
-                    "NP946061",
-                    "DR610112",
-                    "VN422858"
+//                    "CE851721", //1a
+//                    "HV139407", //1b
+//                    "AF110436", //3a
+//                    "TW205049", //3b
+                    "AF110436", //3a
+                    "TW205049" //3b
             )
             .map(id -> "https://dev-coach.everfit.io/package/" + id)
             .toList();
@@ -42,7 +37,7 @@ public class PaymentTest {
             "123"
     ).map(id -> "" + id).toList();
     private final String websiteURLEmail = "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&ifkv=Ab5oB3ovj5k34RnzmCGQhjyEyRlo0pcjC_F5pjZQvjGvIW90EN_KmKv2f0W0Phk1RqNCElokaPs_OQ&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1893503904%3A1724083717557877&ddm=0#inbox";
-    private final String websiteURLPackage = "https://package-dev.everfit.io/DC821698";
+    private final String websiteURLPackage = "https://landing-dev.everfit.io/product/RH234445";
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
@@ -59,12 +54,13 @@ public class PaymentTest {
             String firstURL = websiteURLs.get(i);
             driver.get(firstURL);
             driver.manage().window().maximize();
-            paymentPage.randomNumber = paymentPage.generateRandomNumber();
+            paymentPage.randomNumber = paymentPageMP.generateRandomNumber();
             String email1 = "lamnguyenbao+85atd" + paymentPage.randomNumber + "@everfit.io";
             paymentPage.enterPersonalDetails(email1);
             paymentPage.enterCardDetails();
             paymentPage.enterBillingDetails();
             paymentPage.completePurchase();
+            paymentPage.clickSignUp();
             paymentPage.switchToNewestWindow();
             paymentPage.signUpNewAccount();
             System.out.println(email1);
@@ -79,15 +75,16 @@ public class PaymentTest {
                 paymentPage.enterCardDetails();
                 paymentPage.enterBillingDetails();
                 paymentPage.completePurchase();
+                paymentPage.clickLogin();
                 paymentPage.switchToNewestWindow();
-                paymentPage.signUpNewAccount();
+                paymentPage.loginCurrentAccount();
                 System.out.println(email2);
             }
         }
     }
     @Test
     public void TC_002() {
-    driver.get(websiteURLEmail);
+        driver.get(websiteURLEmail);
         driver.manage().window().maximize();
         paymentPageMP.loginEmail();
         ((JavascriptExecutor) driver).executeScript("window.open()");
@@ -96,10 +93,6 @@ public class PaymentTest {
         paymentPage.randomNumber = paymentPage.generateRandomNumber();
         String email = "lamnguyenbao+85atd" + paymentPage.randomNumber + "@everfit.io";
         paymentPageMP.signUp(email, paymentPage.randomNumber, email);
-        paymentPage.switchToNewestWindow();
-        driver.get(websiteURLPackage);
-//        driver.manage().window().maximize();
-//        paymentPageMP.loginCurrentAccount();
         paymentPageMP.enterCardDetails();
         paymentPageMP.enterBillingDetails();
 
@@ -111,6 +104,8 @@ public class PaymentTest {
         paymentPageMP.loginCurrentAccount();
         paymentPageMP.enterCardDetails();
         paymentPageMP.enterBillingDetails();
+
+
     }
     @After
     public void tearDown() {

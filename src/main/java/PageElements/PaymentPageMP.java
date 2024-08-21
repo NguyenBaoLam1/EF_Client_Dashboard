@@ -29,6 +29,8 @@ public class PaymentPageMP extends BasePage {
     private final By EMAIL_NEW_INBOX = By.xpath("(//span[text()='Welcome to Everfit Marketplace'])[2]");
     private final By EMAIL_EXPAND = By.xpath("//div[@data-tooltip='Show trimmed content']");
     private final By COMPLETE_REGISTRATION = By.xpath("//span[text()='Complete my Registration']");
+    private final By EMAIL_NEW_MESSSAGE = By.xpath("//span[text()=' New Message from marketplace-noreply@everfit-mail.com']");
+    private final By SHOW_BUTTON = By.xpath("//span[text()='Show']");
 
     private final By YOUR_NAME = By.xpath("//input[@id='card_name']");
     private final By IFRAME_CARD_NUMBER = By.xpath("//iframe[@title='Secure card number input frame']");
@@ -57,6 +59,7 @@ public class PaymentPageMP extends BasePage {
         click(EMAIL_CONTINUE);
         waitForVisibleOf(EMAIL_INBOX);
     }
+    public String randomNumber2;
     public void signUp(String email, String lastName, String getEmail)
     {
         click(HEADER_AUTH);
@@ -66,19 +69,41 @@ public class PaymentPageMP extends BasePage {
         sendKeys(EMAIL,email);
         sendKeys(PASSWORD,"Pass1234!");
         click(REGISTER);
+        if (isErrorMessageMPVisible()) {
+            String anotherEmail;
+            do {
+                randomNumber2 = generateRandomNumber();
+                anotherEmail = "lamnguyenbao+85atd" + randomNumber2 + "@everfit.io";
+                System.out.println("anotherEmail="+anotherEmail);
+                clearAndEnterText(EMAIL, anotherEmail);
+                clearAndEnterText(LAST_NAME, randomNumber2);
+                click(REGISTER);
+            } while (isErrorMessageMPVisible());
+        }
         waitForVisibleOf(CHECK_EMAIL_SCREEN);
         switchToWindow(driver,0);
-        sleep(5000);
-        waitForVisibleOf(EMAIL_NEW_INBOX);
-        click(EMAIL_NEW_INBOX);
-        By EMAIL_GET_INFO = By.xpath("//span[@email='" + getEmail +"']");
-        System.out.println("EMAIL_GET_INFO=" + EMAIL_GET_INFO);
-
         int maxAttempts = 10;
         int attempts = 0;
         while (attempts < maxAttempts) {
             try {
-                click(EMAIL_GET_INFO);
+                waitForVisibleOf(EMAIL_NEW_INBOX);
+                break;
+            } catch (Exception e) {
+                driver.navigate().refresh();
+                waitForVisibleOf(EMAIL_NEW_INBOX);
+                attempts++;
+            }
+        }
+        attempts = 0;
+        click(EMAIL_NEW_INBOX);
+        By EMAIL_GET_INFO = By.xpath("//span[@email='" + getEmail +"']");
+        System.out.println("EMAIL_GET_INFO=" + EMAIL_GET_INFO);
+
+
+        boolean emailGetInfoFound = false;
+        while (attempts < maxAttempts) {
+            try {
+                clickEditTime(EMAIL_GET_INFO,1);
                 System.out.println("Element found and clicked.");
                 break;
             } catch (Exception e) {
@@ -89,10 +114,7 @@ public class PaymentPageMP extends BasePage {
         }
         click(EMAIL_EXPAND);
         click(COMPLETE_REGISTRATION);
-        sleep(1000);
-        switchToWindow(driver,1);
-        driver.navigate().refresh();
-        waitForVisibleOf(HEADER_AUTH);
+        switchToWindow(driver,2);
     }
     public void loginCurrentAccount() {
         click(HEADER_AUTH);
@@ -117,6 +139,8 @@ public class PaymentPageMP extends BasePage {
         driver.switchTo().defaultContent();
     }
     public void enterBillingDetails() {
+        scrollIntoView(PURCHASE);
+        sleep(500);
         click(COUNTRY);
         click(LIST_COUNTRY);
         sendKeys(BILLING_ADDRESS, "Address");
@@ -129,4 +153,5 @@ public class PaymentPageMP extends BasePage {
         click(CONFIRM);
         waitForVisibleOf(PAYMENT_SUCCESS);
     }
+
     }
