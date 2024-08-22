@@ -111,7 +111,10 @@ public class PaymentPage extends BasePage {
             } catch (TimeoutException e) {
                 // If the condition times out, execute this code
                 clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                System.out.println("finalEmail= "+ "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                sleep(1000);
                 click(SIGN_UP_BUTTON);
+                break;
             }
         }
             if (isErrorMessageVisible()) {
@@ -119,7 +122,7 @@ public class PaymentPage extends BasePage {
                 do {
                     String randomNumber2 = generateRandomNumber2();
                     email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
-//                    System.out.println("emailChangedAfterDuplicate= " +email2);
+                    System.out.println("emailChangedAfterFinal= " +email2);
                     clearAndEnterText(EMAIL, email2);
                     clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
                     click(SIGN_UP_BUTTON);
@@ -136,7 +139,7 @@ public class PaymentPage extends BasePage {
     {
         String emailLogin = "lamnguyenbao+8stg" + randomNumber + "@everfit.io";
         clearAndEnterText(EMAIL, emailLogin);
-//        System.out.println("emailLogin= "+emailLogin);
+        System.out.println("finalEmail2= "+emailLogin);
         sendKeys(PASSWORD,"Pass1234!");
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(LOGIN_BUTTON, "disabled", "true")));
         click(LOGIN_BUTTON);
@@ -168,7 +171,9 @@ public class PaymentPage extends BasePage {
             } catch (TimeoutException e) {
                 // If the condition times out, execute this code
                 clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                System.out.println("finalEmail= "+ "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
                 click(SIGN_UP_BUTTON);
+                break;
             }
         }
         if (isErrorMessageVisible()) {
@@ -176,7 +181,7 @@ public class PaymentPage extends BasePage {
             do {
                 String randomNumber2 = generateRandomNumber2();
                 email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
-//                System.out.println("emailChangedAfterDuplicate= " +email2);
+                System.out.println("emailChangedAfterFinal= " +email2);
                 clearAndEnterText(EMAIL, email2);
                 clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
                 click(SIGN_UP_BUTTON);

@@ -24,36 +24,69 @@ public class PaymentTest {
     private PaymentPage paymentPage;
     private PaymentPageMP paymentPageMP;
     private final List<String> websiteURLs001 = Stream.of(
-                    "ON264420", // One time 1$
-                    "AB873993", // One time 2$
-                    "ON264420", // One time 1$
-                    "AB873993", // One time 2$
-                    "CL821359", // Recurring 1m 2 times
-                    "II372879", // Recurring 1 month
-                    "CL821359", // Recurring 1m 2 times
-                    "II372879", // Recurring 1 month
-                    "CL821359", // Recurring 1m 2 times
-                    "RI558348", // Recurring 2 months
-                    "LH954869", // Recurring 1m 3 times
-                    "RI558348", // Recurring 2 months
-                    "LH954869", // Recurring 1m 3 times
-                    "RI558348", // Recurring 2 months
-                    "CL821359", // Recurring 1m 2 times
-                    "RI558348", // Recurring 2 months
-                    "LH954869", // Recurring 1m 3 times
-                    "YJ068088", // Recurring 2m 2 times
-                    "II372879", // Recurring 1 month
-                    "RI558348", // Recurring 2 months
-                    "II372879", // Recurring 1 month
-                    "RI558348", // Recurring 2 months
-                    "II372879", // Recurring 1 month
-                    "RI558348", // Recurring 2 months
-                    "CL821359", // Recurring 1m 2 times
-                    "II372879", // Recurring 1 month
-                    "ON264420", // One time
-                    "CL821359", // Recurring 1m 2 times
-                    "ON264420", // One time
-                    "CL821359"  // Recurring 1m 2 times
+//                    "ON264420", // One time 1$
+//                    "AB873993", // One time 2$
+//                    "ON264420", // One time 1$
+//                    "AB873993", // One time 2$
+//                    "CL821359", // Recurring 1m 2 times
+//                    "II372879", // Recurring 1 month
+//                    "CL821359", // Recurring 1m 2 times
+//                    "II372879", // Recurring 1 month
+//                    "CL821359", // Recurring 1m 2 times
+//                    "RI558348", // Recurring 2 months
+//                    "LH954869", // Recurring 1m 3 times
+//                    "RI558348", // Recurring 2 months
+//                    "LH954869", // Recurring 1m 3 times
+//                    "RI558348", // Recurring 2 months
+//                    "CL821359", // Recurring 1m 2 times
+//                    "RI558348", // Recurring 2 months
+//                    "LH954869", // Recurring 1m 3 times
+//                    "YJ068088", // Recurring 2m 2 times
+//                    "II372879", // Recurring 1 month
+//                    "RI558348", // Recurring 2 months
+//                    "II372879", // Recurring 1 month
+//                    "RI558348", // Recurring 2 months
+//                    "II372879", // Recurring 1 month
+//                    "RI558348" // Recurring 2 months
+//                    "CL821359", // Recurring 1m 2 times
+//                    "II372879", // Recurring 1 month
+//                    "ON264420", // One time
+//                    "CL821359", // Recurring 1m 2 times
+//                    "ON264420", // One time
+//                    "CL821359"  // Recurring 1m 2 times
+//// WSA IDs
+//                    "CL821359",
+//                    "CL821359",
+//                    "ON264420",
+//                    "ON264420",
+//
+//// WSB IDs
+//                    "PA277533",
+//                    "PA277533",
+//                    "UJ031422",
+//                    "UJ031422",
+            //Mlp WS
+//            "BB790675",
+//            "SI563557",
+//            "IW656901",
+//            "CP190820",
+            //CORE & MP client
+//// WSA IDs
+//                    "CL821359",
+//                    "II372879",
+//                    "ON264420",
+//
+//// WSB IDs
+//                    "CR980784",
+//                    "PA277533",
+//                    "PA277533"
+                    // WSA IDs
+                    "CL821359",
+                    "II372879",
+
+// WSB IDs
+                    "CR980784",
+                    "PA277533"
             )
             .map(id -> "https://staging-coach.everfit.io/package/" + id)
             .toList();
@@ -74,7 +107,6 @@ public class PaymentTest {
             driver.get(URL);
             driver.manage().window().maximize();
             String email1 = "lamnguyenbao+8stg" + paymentPage.randomNumber + "@everfit.io";
-            System.out.println("finalEmail= " +email1);
             paymentPage.enterPersonalDetails(email1);
             paymentPage.enterCardDetails();
             paymentPage.enterBillingDetails();
@@ -89,7 +121,6 @@ public class PaymentTest {
                 driver.manage().window().maximize();
                 String email2 = "lamnguyenbao+8stg" + paymentPage.randomNumber + "@everfit.io";
                 paymentPage.enterPersonalDetails(email2);
-                System.out.println("finalEmail= " +email2);
                 paymentPage.enterCardDetails();
                 paymentPage.enterBillingDetails();
                 paymentPage.completePurchase();
@@ -100,7 +131,7 @@ public class PaymentTest {
         }
     }
     private final List<String> websiteURLs002 = Stream.of(
-            "ON264420", // One time 1$
+//            "ON264420", // One time 1$
             "CL821359", // Recurring 1m 2 times
             "II372879"  // Recurring 1 month
     ).map(id -> "https://staging-coach.everfit.io/package/" + id).toList();
@@ -111,7 +142,6 @@ public class PaymentTest {
             driver.get(URL);
             driver.manage().window().maximize();
             String email1 = "lamnguyenbao+8stg" + paymentPage.randomNumber + "@everfit.io";
-            System.out.println("emailSignUp1= " + email1);
             paymentPage.enterPersonalDetails(email1);
             paymentPage.enterCardDetails();
             paymentPage.enterBillingDetails();
@@ -122,24 +152,26 @@ public class PaymentTest {
         }
     }
     private final List<String> websiteURLs003 = Stream.of(
-            "BB790675", // Recurring 1 month 2 times
-            "JO691876", // Recurring 2 months
-            "BB790675", // Recurring 1 month 2 times
-            "JO691876", // Recurring 2 months
-            "QF132219", // Recurring 1 month 3 times
-            "JO691876", // Recurring 2 months
-            "QF132219", // Recurring 1 month 3 times
-            "JO691876", // Recurring 2 months
-            "BB790675", // Recurring 1 month 2 times
-            "JO691876", // Recurring 2 months
-            "QF132219", // Recurring 1 month 3 times
-            "IW432910", // Recurring 2 months 2 times
-            "VR997602", // (No details provided)
-            "ZN440186"  // (No details provided)
+//            "BB790675", // Recurring 1 month 2 times
+//            "JO691876", // Recurring 2 months
+//            "BB790675", // Recurring 1 month 2 times
+//            "JO691876", // Recurring 2 months
+//            "QF132219", // Recurring 1 month 3 times
+//            "JO691876", // Recurring 2 months
+//            "QF132219", // Recurring 1 month 3 times
+//            "JO691876", // Recurring 2 months
+//            "BB790675", // Recurring 1 month 2 times
+//            "JO691876", // Recurring 2 months
+//            "QF132219", // Recurring 1 month 3 times
+//            "IW432910", // Recurring 2 months 2 times
+//            "VR997602", // (No details provided)
+//            "ZN440186"  // (No details provided)
+            "BB790675",
+            "JO691876"
     ).map(id -> "https://package-stg.everfit.io/" + id).toList();
     private final String websiteURLEmail = "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&ifkv=Ab5oB3ovj5k34RnzmCGQhjyEyRlo0pcjC_F5pjZQvjGvIW90EN_KmKv2f0W0Phk1RqNCElokaPs_OQ&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1893503904%3A1724083717557877&ddm=0#inbox";
     @Test
-    public void TC_003() { //Purchase 2 package with 1 client
+    public void TC_003() { //Purchase 2 package MP with 1 client
         driver.get(websiteURLEmail);
         driver.manage().window().maximize();
         paymentPageMP.loginEmail();
