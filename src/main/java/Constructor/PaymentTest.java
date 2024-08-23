@@ -1,7 +1,6 @@
 package Constructor;
 
 
-import Actions.BasePage;
 import PageElements.PaymentPage;
 import PageElements.PaymentPageMP;
 import org.junit.After;
@@ -9,14 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PaymentTest {
@@ -24,18 +19,24 @@ public class PaymentTest {
     private PaymentPage paymentPage;
     private PaymentPageMP paymentPageMP;
     private final List<String> websiteURLs001 = Stream.of(
-//                    "ON264420", // One time 1$
-//                    "AB873993", // One time 2$
-//                    "ON264420", // One time 1$
-//                    "AB873993", // One time 2$
-//                    "CL821359", // Recurring 1m 2 times
+//                    "CL821359", // Recurring 1m 2times
 //                    "II372879", // Recurring 1 month
-//                    "CL821359", // Recurring 1m 2 times
-//                    "II372879", // Recurring 1 month
-//                    "CL821359", // Recurring 1m 2 times
+//                    "CL821359", // Recurring 1m 2times
 //                    "RI558348", // Recurring 2 months
 //                    "LH954869", // Recurring 1m 3 times
+//                    "YJ068088", // Recurring 2m 2 times
+//                    "II372879", // Recurring 1 month
 //                    "RI558348", // Recurring 2 months
+//                    "II372879", // Recurring 1 month
+//                    "RI558348", // Recurring 2 months
+                    "CL821359", // Recurring 1m 2times
+                    "RI558348", // Recurring 2 months
+                    "LH954869", // Recurring 1m 3 times
+                    "YJ068088", // Recurring 2m 2 times
+                    "II372879", // Recurring 1 month
+                    "RI558348", // Recurring 2 months
+                    "II372879", // Recurring 1 month
+                    "RI558348"  // Recurring 2 months
 //                    "LH954869", // Recurring 1m 3 times
 //                    "RI558348", // Recurring 2 months
 //                    "CL821359", // Recurring 1m 2 times
@@ -47,7 +48,7 @@ public class PaymentTest {
 //                    "II372879", // Recurring 1 month
 //                    "RI558348", // Recurring 2 months
 //                    "II372879", // Recurring 1 month
-//                    "RI558348" // Recurring 2 months
+//                    "RI558348", // Recurring 2 months
 //                    "CL821359", // Recurring 1m 2 times
 //                    "II372879", // Recurring 1 month
 //                    "ON264420", // One time
@@ -65,12 +66,12 @@ public class PaymentTest {
 //                    "PA277533",
 //                    "UJ031422",
 //                    "UJ031422",
-            //Mlp WS
+                    //Mlp WS
 //            "BB790675",
 //            "SI563557",
 //            "IW656901",
 //            "CP190820",
-            //CORE & MP client
+                    //CORE & MP client
 //// WSA IDs
 //                    "CL821359",
 //                    "II372879",
@@ -81,16 +82,17 @@ public class PaymentTest {
 //                    "PA277533",
 //                    "PA277533"
                     // WSA IDs
-                    "CL821359",
-                    "II372879",
-
-// WSB IDs
-                    "CR980784",
-                    "PA277533"
+//                    "CL821359",
+//                    "II372879",
+//
+//// WSB IDs
+//                    "CR980784",
+//                    "PA277533"
             )
             .map(id -> "https://staging-coach.everfit.io/package/" + id)
             .toList();
-//    private final String websiteURLPackage = "https://landing-dev.everfit.io/product/RH234445";
+
+    //    private final String websiteURLPackage = "https://landing-dev.everfit.io/product/RH234445";
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
@@ -99,6 +101,7 @@ public class PaymentTest {
         paymentPage = new PaymentPage(driver);
         paymentPageMP = new PaymentPageMP(driver);
     }
+
     @Test
     public void TC_001() { //Purchase 2 package with 1 client
         for (int i = 0; i < websiteURLs001.size(); i += 2) {
@@ -118,7 +121,6 @@ public class PaymentTest {
             if (i + 1 < websiteURLs001.size()) {
                 String secondURL = websiteURLs001.get(i + 1);
                 driver.get(secondURL);
-                driver.manage().window().maximize();
                 String email2 = "lamnguyenbao+8stg" + paymentPage.randomNumber + "@everfit.io";
                 paymentPage.enterPersonalDetails(email2);
                 paymentPage.enterCardDetails();
@@ -130,11 +132,13 @@ public class PaymentTest {
             }
         }
     }
+
     private final List<String> websiteURLs002 = Stream.of(
 //            "ON264420", // One time 1$
             "CL821359", // Recurring 1m 2 times
             "II372879"  // Recurring 1 month
     ).map(id -> "https://staging-coach.everfit.io/package/" + id).toList();
+
     @Test
     public void TC_002() { //Purchase 1 package with 1 client
         for (String URL : websiteURLs002) {
@@ -151,6 +155,7 @@ public class PaymentTest {
             paymentPage.onlySignUpNewAccount();
         }
     }
+
     private final List<String> websiteURLs003 = Stream.of(
 //            "BB790675", // Recurring 1 month 2 times
 //            "JO691876", // Recurring 2 months
@@ -170,6 +175,7 @@ public class PaymentTest {
             "JO691876"
     ).map(id -> "https://package-stg.everfit.io/" + id).toList();
     private final String websiteURLEmail = "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&ifkv=Ab5oB3ovj5k34RnzmCGQhjyEyRlo0pcjC_F5pjZQvjGvIW90EN_KmKv2f0W0Phk1RqNCElokaPs_OQ&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1893503904%3A1724083717557877&ddm=0#inbox";
+
     @Test
     public void TC_003() { //Purchase 2 package MP with 1 client
         driver.get(websiteURLEmail);
@@ -200,9 +206,11 @@ public class PaymentTest {
             }
         }
     }
+
     private final List<String> websiteURLs004 = Stream.of(
             "BB790675 "  // Recurring 1 month 2 times
     ).map(id -> "https://package-stg.everfit.io/" + id).toList();
+
     @Test
     public void TC_004() { //Purchase 1 package with 1 client
         driver.get(websiteURLEmail);
@@ -222,7 +230,8 @@ public class PaymentTest {
             paymentPageMP.enterBillingDetails();
         }
     }
-//    @Test
+
+    //    @Test
 //    public void test() {
 //        driver.get(websiteURLEmail);
 //        driver.manage().window().maximize();
@@ -239,6 +248,7 @@ public class PaymentTest {
     public void TC_test004() {
 
     }
+
     @After
     public void tearDown() {
 //        if (driver != null) {

@@ -102,13 +102,18 @@ public class PaymentPage extends BasePage {
             if (isErrorMessageVisible()) {
                 break;
             }
+            if (isPaymentSuccessVisible()) {
+            break;
+            }
             try {
+                System.out.println("Try processing....");
                 WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
                 // Wait until the SIGN_UP_BUTTON is not disabled
                 shortWait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
                 // If successful, break out of the loop
                 break;
             } catch (TimeoutException e) {
+                System.out.println("Catch processing....");
                 // If the condition times out, execute this code
                 clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
                 System.out.println("finalEmail= "+ "lamnguyenbao+8stg" + randomNumber + "@everfit.io");

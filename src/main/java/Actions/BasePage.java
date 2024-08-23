@@ -74,12 +74,24 @@ public class BasePage {
     public boolean isErrorMessageVisible() {
         By errorMessageLocator = By.xpath("//div[text()='Your account is already registered. Please log in or sign up with another email.']");
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
             return true; // Error message is visible
         } catch (Exception e) {
             return false; // Error message is not visible
         }
     }
+    public boolean isPaymentSuccessVisible() {
+        By errorMessageLocator = By.xpath("//h4[text()='Success!']");
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
+            return true; // Error message is visible
+        } catch (Exception e) {
+            return false; // Error message is not visible
+        }
+    }
+
     public boolean isErrorMessagePurchaseActived() {
         By errorMessageLocator = By.xpath("//div[text()='Purchase has been activated already.']");
         try {
