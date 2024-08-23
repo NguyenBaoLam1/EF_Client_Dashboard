@@ -148,8 +148,6 @@ public class BasePage {
     public void switchToNewestWindow() {
         Set<String> windowHandles = driver.getWindowHandles();
         List<String> newWindows = new ArrayList<>(windowHandles);
-        for (String newWindow : windowHandles) {
-            driver.switchTo().window(newWindow);
-        }
+        driver.switchTo().window(newWindows.get(newWindows.size() - 1));
     }
 }
