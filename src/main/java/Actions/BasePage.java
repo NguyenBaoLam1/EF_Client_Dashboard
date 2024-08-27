@@ -1,16 +1,12 @@
 package Actions;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 
 import java.time.Duration;
 import java.util.Random;
-import org.openqa.selenium.Keys;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -149,5 +145,12 @@ public class BasePage {
         Set<String> windowHandles = driver.getWindowHandles();
         List<String> newWindows = new ArrayList<>(windowHandles);
         driver.switchTo().window(newWindows.get(newWindows.size() - 1));
+    }
+    public boolean isElementVisible(By locator) {
+        try {
+            return driver.findElement(locator).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }

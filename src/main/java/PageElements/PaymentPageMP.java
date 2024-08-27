@@ -77,11 +77,13 @@ public class PaymentPageMP extends BasePage {
 
         click(HEADER_AUTH);
         try {
+            System.out.println("try.....");
             // Wait until SIGN_UP is visible
             WebElement signUpElement = new WebDriverWait(driver, Duration.ofSeconds(1))
                     .until(ExpectedConditions.visibilityOfElementLocated(SIGN_UP));
             signUpElement.click(); // Click SIGN_UP if visible
         } catch (TimeoutException e) {
+            System.out.println("catch.....");
             // If SIGN_UP is not visible within the timeout, click LOGOUT instead
             WebElement logoutElement = new WebDriverWait(driver, Duration.ofSeconds(1))
                     .until(ExpectedConditions.visibilityOfElementLocated(LOGOUT));
@@ -89,6 +91,7 @@ public class PaymentPageMP extends BasePage {
             click(HEADER_AUTH);
             click(SIGN_UP);
         }
+        waitForVisibleOf(FIRST_NAME);
         sendKeys(FIRST_NAME, "8stg");
         sendKeys(LAST_NAME, randomNumberMP);
         sendKeys(EMAIL, email);
@@ -113,10 +116,9 @@ public class PaymentPageMP extends BasePage {
             int maxAttempts = 10;
             int attempts = 0;
             while (attempts < maxAttempts) {
-                try {
-                    waitForVisibleOf(EMAIL_NEW_INBOX);
+                if (isElementVisible(EMAIL_NEW_INBOX)) {
                     break;
-                } catch (Exception e) {
+                } else {
                     click(EMAIL_INBOX);
                     waitForVisibleOf(EMAIL_NEW_INBOX);
                     attempts++;
@@ -129,25 +131,24 @@ public class PaymentPageMP extends BasePage {
             System.out.println("EMAIL_GET_INFO=" + EMAIL_GET_INFO);
             boolean emailGetInfoFound = false;
             while (attempts < maxAttempts) {
-                try {
-                    WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
-                    shortWait.until(ExpectedConditions.visibilityOfElementLocated(EMAIL_GET_INFO));
-                    System.out.println("Element found.");
+                if (isElementVisible(EMAIL_GET_INFO)) {
                     break;
-                } catch (Exception e) {
-                    System.out.println("Element not found, try again...");
+                } else {
                     click(EMAIL_INBOX);
                     click(EMAIL_NEW_INBOX);
                     attempts++;
                 }
             }
-            try {
-                // Try to click COMPLETE_REGISTRATION
-                click(COMPLETE_REGISTRATION);
-            } catch (NoSuchElementException | TimeoutException e) {
-                // If COMPLETE_REGISTRATION is not found, click EMAIL_EXPAND again
-                click(EMAIL_EXPAND);
-                click(COMPLETE_REGISTRATION);
+            attempts = 0;
+            while (attempts < maxAttempts) {
+                if (isElementVisible(COMPLETE_REGISTRATION)) {
+                    click(COMPLETE_REGISTRATION);
+                    break;
+                } else {
+                    click(EMAIL_EXPAND);
+                    click(COMPLETE_REGISTRATION);
+                    attempts++;
+                }
             }
             switchToNewestWindow();
             waitForVisibleOf(HEADER_AUTH);
@@ -156,6 +157,7 @@ public class PaymentPageMP extends BasePage {
         String email2 = "lamnguyenbao+8stg" + randomNumberMP + "@everfit.io";
         click(HEADER_AUTH);
         click(LOGIN);
+        waitForVisibleOf(EMAIL);
         sendKeys(EMAIL,email2);
         sendKeys(PASSWORD,"Pass1234!");
         click(LOGIN_CONFIRM);

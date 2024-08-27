@@ -167,6 +167,9 @@ public class PaymentPage extends BasePage {
             if (isErrorMessageVisible()) {
                 break;
             }
+            if (isPaymentSuccessVisible()) {
+                break;
+            }
             try {
                 WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
                 // Wait until the SIGN_UP_BUTTON is not disabled
@@ -176,7 +179,6 @@ public class PaymentPage extends BasePage {
             } catch (TimeoutException e) {
                 // If the condition times out, execute this code
                 clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
-                System.out.println("finalEmail= "+ "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
                 click(SIGN_UP_BUTTON);
                 break;
             }
@@ -188,7 +190,7 @@ public class PaymentPage extends BasePage {
                 email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
                 System.out.println("emailChangedAfterFinal= " +email2);
                 clearAndEnterText(EMAIL, email2);
-                clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
+                clearAndEnterText(LAST_NAME, randomNumber2);
                 click(SIGN_UP_BUTTON);
                 randomNumber = randomNumber2;
             } while (isErrorMessageVisible());
