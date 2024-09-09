@@ -157,6 +157,10 @@ public class PaymentTest {
 
     private final List<String> websiteURLs003 = Stream.of(
             "RE863674", // (one time 1$)
+            "QY441114", // (one time 2$)
+            "RE863674", // (one time 1$)
+            "QY441114", // (one time 2$)
+            "RE863674", // (one time 1$)
             "QY441114" // (one time 2$)
 
     ).map(id -> "https://package-dev.everfit.io/" + id).toList();

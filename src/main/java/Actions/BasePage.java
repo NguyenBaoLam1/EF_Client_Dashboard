@@ -15,10 +15,12 @@ import java.util.Set;
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected WebDriverWait shortWait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        this.shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
     }
 
     protected void sendKeys(By elementLocator, String value) {
@@ -70,7 +72,6 @@ public class BasePage {
     public boolean isErrorMessageVisible() {
         By errorMessageLocator = By.xpath("//div[text()='Your account is already registered. Please log in or sign up with another email.']");
         try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
             shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
             return true; // Error message is visible
         } catch (Exception e) {
@@ -80,7 +81,6 @@ public class BasePage {
     public boolean isPaymentSuccessVisible() {
         By errorMessageLocator = By.xpath("//h4[text()='Success!']");
         try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
             shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
             return true; // Error message is visible
         } catch (Exception e) {
@@ -97,10 +97,19 @@ public class BasePage {
             return false; // Error message is not visible
         }
     }
+    public boolean isCheckYourEmailVisible() {
+        By errorMessageLocator = By.xpath("//h3[text()='Check your email!']");
+        try {
+            shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
+            return true; // Error message is visible
+        } catch (Exception e) {
+            return false; // Error message is not visible
+        }
+    }
     public boolean isErrorMessageMPVisible() {
         By errorMessageLocator = By.xpath("//p[text()='This email has already been used.']");
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
+            shortWait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator));
             return true; // Error message is visible
         } catch (Exception e) {
             return false; // Error message is not visible

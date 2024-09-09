@@ -27,18 +27,19 @@ public class PaymentPageMP extends BasePage {
     private final By EMAIL  = By.xpath("//input[@name='email']");
     private final By PASSWORD = By.xpath("//input[@name='password']");
     private final By REGISTER = By.xpath("//button[text()='Register']");
-    private final By CHECK_EMAIL_SCREEN = By.xpath("//h3[text()='Check your email!']");
 
     private final By EMAIL_EMAIL = By.xpath("//input[@type='email']");
     private final By EMAIL_CONTINUE = By.xpath("//span[text()='Next']");
     private final By EMAIL_PASSWORD = By.xpath("//input[@type='password']");
     private final By EMAIL_INBOX = By.xpath("//a[text()='Inbox']");
+    private final By EMAIL_SEARCH = By.xpath("//input[@placeholder='Search mail']");
+    private final By EMAIL_SEARCH_ACTION = By.xpath("//button[@aria-label='Search mail']");
     private final By EMAIL_TOTEST = By.xpath("//a[text()='To Test']");
     private final By EMAIL_OPTION = By.xpath("//div[@aria-label ='More email options']");
     private final  By MARK_ALLREAD = By.xpath("//div[text() ='Mark all as read']");
     private final By CLICK_NEW_EMAIL = By.xpath("//tr[@class='zA zE']");
 
-    private final By EMAIL_NEW_INBOX = By.xpath("(//span[text()='Welcome to Everfit Marketplace'])[2]");
+    private final By EMAIL_NEW_INBOX = By.xpath("(//span[text()='Welcome to Everfit Marketplace'])[4]");
     private final By EMAIL_EXPAND = By.xpath("//div[@data-tooltip='Show trimmed content']");
     private final By COMPLETE_REGISTRATION = By.xpath("//span[text()='Complete my Registration']");
     private final By EMAIL_NEW_MESSSAGE = By.xpath("//span[text()=' New Message from marketplace-noreply@everfit-mail.com']");
@@ -62,6 +63,8 @@ public class PaymentPageMP extends BasePage {
     private final By CONFIRM = By.xpath("//button[text()='Authorize & Confirm Payment']");
     private final By PAYMENT_SUCCESS = By.xpath("//div[text()='Payment Success!']");
 
+    String firstName = "d";
+
 
     public void loginEmail() {
         sendKeys(EMAIL_EMAIL, "lamnguyenbao@everfit.io");
@@ -69,21 +72,19 @@ public class PaymentPageMP extends BasePage {
         waitForVisibleOf(EMAIL_PASSWORD);
         sendKeys(EMAIL_PASSWORD, "lamnguyenbao@everfit.io");
         click(EMAIL_CONTINUE);
-        waitForVisibleOf(EMAIL_INBOX);
+//        waitForVisibleOf(EMAIL_INBOX);
     }
     String randomNumberMP = generateRandomNumber();
     public void signUp() {
-        String email = "lamnguyenbao+8stg" + randomNumberMP + "@everfit.io";
+        String email = "lamnguyenbao+"+firstName + randomNumberMP + "@everfit.io";
 
         click(HEADER_AUTH);
         try {
-            System.out.println("try.....");
             // Wait until SIGN_UP is visible
             WebElement signUpElement = new WebDriverWait(driver, Duration.ofSeconds(1))
                     .until(ExpectedConditions.visibilityOfElementLocated(SIGN_UP));
             signUpElement.click(); // Click SIGN_UP if visible
         } catch (TimeoutException e) {
-            System.out.println("catch.....");
             // If SIGN_UP is not visible within the timeout, click LOGOUT instead
             WebElement logoutElement = new WebDriverWait(driver, Duration.ofSeconds(1))
                     .until(ExpectedConditions.visibilityOfElementLocated(LOGOUT));
@@ -92,69 +93,71 @@ public class PaymentPageMP extends BasePage {
             click(SIGN_UP);
         }
         waitForVisibleOf(FIRST_NAME);
-        sendKeys(FIRST_NAME, "8stg");
+        sendKeys(FIRST_NAME, firstName);
         sendKeys(LAST_NAME, randomNumberMP);
         sendKeys(EMAIL, email);
         sendKeys(PASSWORD, "Pass1234!");
         click(REGISTER);
-        if (isErrorMessageMPVisible()) {
+        if (isCheckYourEmailVisible()) {
+        } else if (isErrorMessageMPVisible()) {
             String anotherEmail;
             do {
                 String randomNumberMP2 = generateRandomNumber2();
-                anotherEmail = "lamnguyenbao+8stg" + randomNumberMP2 + "@everfit.io";
+                anotherEmail = "lamnguyenbao+"+firstName + randomNumberMP2 + "@everfit.io";
                 clearAndEnterText(EMAIL, anotherEmail);
                 clearAndEnterText(LAST_NAME, randomNumberMP2);
                 click(REGISTER);
-                randomNumberMP = randomNumberMP2;
+                randomNumberMP = randomNumberMP2; // Update randomNumberMP to randomNumberMP2
             } while (isErrorMessageMPVisible());
         }
     }
-
     public void verifyEmail()
         {
             switchToWindow(driver, 0);
             int maxAttempts = 10;
             int attempts = 0;
+
+            clearAndEnterText(EMAIL_SEARCH,firstName + randomNumberMP);
+            click(EMAIL_SEARCH_ACTION);
             while (attempts < maxAttempts) {
+                sleep(2000);
                 if (isElementVisible(EMAIL_NEW_INBOX)) {
                     break;
                 } else {
-                    click(EMAIL_INBOX);
-                    waitForVisibleOf(EMAIL_NEW_INBOX);
+                    click(EMAIL_SEARCH_ACTION);
                     attempts++;
                 }
             }
             attempts = 0;
+            sleep(1000);
             click(EMAIL_NEW_INBOX);
-            String email2 = "lamnguyenbao+8stg" + randomNumberMP + "@everfit.io";
+            String email2 = "lamnguyenbao+"+firstName + randomNumberMP + "@everfit.io";
             By EMAIL_GET_INFO = By.xpath("//span[@email='" + email2 + "']");
-            System.out.println("EMAIL_GET_INFO=" + EMAIL_GET_INFO);
-            boolean emailGetInfoFound = false;
             while (attempts < maxAttempts) {
                 if (isElementVisible(EMAIL_GET_INFO)) {
                     break;
                 } else {
-                    click(EMAIL_INBOX);
+                    click(EMAIL_SEARCH_ACTION);
+                    try {
+                        shortWait.until(ExpectedConditions.visibilityOfElementLocated(EMAIL_NEW_INBOX));
+                    }
+                    catch (Exception ignored){}
                     click(EMAIL_NEW_INBOX);
                     attempts++;
                 }
             }
-            attempts = 0;
-            while (attempts < maxAttempts) {
                 if (isElementVisible(COMPLETE_REGISTRATION)) {
                     click(COMPLETE_REGISTRATION);
-                    break;
                 } else {
                     click(EMAIL_EXPAND);
+                    shortWait.until(ExpectedConditions.visibilityOfElementLocated(COMPLETE_REGISTRATION));
                     click(COMPLETE_REGISTRATION);
-                    attempts++;
-                }
             }
             switchToNewestWindow();
             waitForVisibleOf(HEADER_AUTH);
         }
     public void loginCurrentAccount() {
-        String email2 = "lamnguyenbao+8stg" + randomNumberMP + "@everfit.io";
+        String email2 = "lamnguyenbao+"+firstName + randomNumberMP + "@everfit.io";
         click(HEADER_AUTH);
         click(LOGIN);
         waitForVisibleOf(EMAIL);
@@ -186,7 +189,13 @@ public class PaymentPageMP extends BasePage {
         sendKeys(CITY, "City");
         sendKeys(ZIP, "50000");
         sendKeys(PHONE_NUMBER,"18237521651");
-        click(PURCHASE);
+        try {
+            click(PURCHASE);
+        }
+        catch (Exception e){
+            sleep(500);
+            click(PURCHASE);
+        }
         try {
             waitForVisibleOf(TYPE_FULL_NAME);
             sendKeys(TYPE_FULL_NAME, "Name");

@@ -46,6 +46,8 @@ public class PaymentPage extends BasePage {
     private final By LOGIN_BUTTON = By.xpath("//button[text()='Log in']");
     private final By ERROR_DUPLICATE_EMAIL = By.xpath("//div[text()='Your account is already registered. Please log in or sign up with another email.']");
 
+    String firstName = "d";
+
     public void enterPersonalDetails(String email) {
         sendKeys(YOUR_NAME, "Name");
         sendKeys(YOUR_EMAIL, email);
@@ -92,7 +94,7 @@ public class PaymentPage extends BasePage {
     public String randomNumber = generateRandomNumber();
     public void signUpNewAccount()
     {
-        sendKeys(FIRST_NAME, "8stg");
+        sendKeys(FIRST_NAME, firstName);
         sendKeys(LAST_NAME, randomNumber);
         sendKeys(PASSWORD, "Pass1234!");
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
@@ -106,17 +108,15 @@ public class PaymentPage extends BasePage {
             break;
             }
             try {
-                System.out.println("Try processing....");
                 WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
                 // Wait until the SIGN_UP_BUTTON is not disabled
                 shortWait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
                 // If successful, break out of the loop
                 break;
             } catch (TimeoutException e) {
-                System.out.println("Catch processing....");
                 // If the condition times out, execute this code
-                clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
-                System.out.println("finalEmail= "+ "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                clearAndEnterText(EMAIL, "lamnguyenbao+"+firstName + randomNumber + "@everfit.io");
+                System.out.println("finalEmail= "+ "lamnguyenbao+"+firstName + randomNumber + "@everfit.io");
                 sleep(1000);
                 click(SIGN_UP_BUTTON);
                 break;
@@ -126,7 +126,7 @@ public class PaymentPage extends BasePage {
                 String email2;
                 do {
                     String randomNumber2 = generateRandomNumber2();
-                    email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
+                    email2 = "lamnguyenbao+"+firstName + randomNumber2 + "@everfit.io";
                     System.out.println("emailChangedAfterFinal= " +email2);
                     clearAndEnterText(EMAIL, email2);
                     clearAndEnterText(LAST_NAME, randomNumber2); //2 value random ni đang khác nhau
@@ -142,7 +142,7 @@ public class PaymentPage extends BasePage {
     }
     public void loginCurrentAccount()
     {
-        String emailLogin = "lamnguyenbao+8stg" + randomNumber + "@everfit.io";
+        String emailLogin = "lamnguyenbao+"+firstName + randomNumber + "@everfit.io";
         clearAndEnterText(EMAIL, emailLogin);
         System.out.println("finalEmail2= "+emailLogin);
         sendKeys(PASSWORD,"Pass1234!");
@@ -157,7 +157,7 @@ public class PaymentPage extends BasePage {
     }
     public void onlySignUpNewAccount()
     {
-        sendKeys(FIRST_NAME, "8stg");
+        sendKeys(FIRST_NAME, firstName);
         sendKeys(LAST_NAME, randomNumber);
         sendKeys(PASSWORD, "Pass1234!");
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(SIGN_UP_BUTTON, "disabled", "true")));
@@ -178,7 +178,7 @@ public class PaymentPage extends BasePage {
                 break;
             } catch (TimeoutException e) {
                 // If the condition times out, execute this code
-                clearAndEnterText(EMAIL, "lamnguyenbao+8stg" + randomNumber + "@everfit.io");
+                clearAndEnterText(EMAIL, "lamnguyenbao+"+firstName + randomNumber + "@everfit.io");
                 click(SIGN_UP_BUTTON);
                 break;
             }
@@ -187,7 +187,7 @@ public class PaymentPage extends BasePage {
             String email2;
             do {
                 String randomNumber2 = generateRandomNumber2();
-                email2 = "lamnguyenbao+8stg" + randomNumber2 + "@everfit.io";
+                email2 = "lamnguyenbao+"+firstName + randomNumber2 + "@everfit.io";
                 System.out.println("emailChangedAfterFinal= " +email2);
                 clearAndEnterText(EMAIL, email2);
                 clearAndEnterText(LAST_NAME, randomNumber2);
