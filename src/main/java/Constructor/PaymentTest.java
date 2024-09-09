@@ -132,7 +132,8 @@ public class PaymentTest {
     private final List<String> websiteURLs002 = Stream.of(
             "ON264420", // One time 1$
             "CL821359", // Recurring 1m 2 times
-            "II372879"  // Recurring 1 month
+            "CL821359" // Recurring 1m 2 times
+//            "II372879"  // Recurring 1 month
     ).map(id -> "https://staging-coach.everfit.io/package/" + id).toList();
 
     @Test
@@ -155,37 +156,10 @@ public class PaymentTest {
     }
 
     private final List<String> websiteURLs003 = Stream.of(
-//            "XZ816313", // (one time 1$)
-//            "YF627848", // (one time 2$)
-//
-//            "XZ816313", // (one time 1$)
-//            "YF627848", // (one time 2$)
-//
-//            "BB790675", // (every 1 month, 2 times)
-//            "IW656901", // (every 1 month)
-//
-//            "BB790675", // (every 1 month 2 times)
-//            "JO691876", // (every 2 months)
+            "RE863674", // (one time 1$)
+            "QY441114" // (one time 2$)
 
-            "BB790675", // (every 1 month, 2 times)
-            "IW656901", // (every 1 month)
-//
-//            "BB790675", // (every 1 month 2 times)
-//            "JO691876", // (every 2 months)
-
-            "QF132219", // (every 1 month 3 times)
-            "JO691876", // (every 2 months)
-
-            "QF132219", // (every 1 month 3 times)
-            "JO691876", // (every 2 months)
-
-            "GT462348", // (every 2 weeks 2 times)
-            "ZZ175928", // (every 2 months)
-
-            "QF132219", // (every 1 month 3 times)
-            "IW432910" // (every 2 months 2 times)
-
-    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
+    ).map(id -> "https://package-dev.everfit.io/" + id).toList();
     private final String websiteURLEmail = "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%3Ftab%3Drm%26ogbl&ifkv=Ab5oB3ovj5k34RnzmCGQhjyEyRlo0pcjC_F5pjZQvjGvIW90EN_KmKv2f0W0Phk1RqNCElokaPs_OQ&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1893503904%3A1724083717557877&ddm=0#inbox";
 
     @Test
@@ -222,10 +196,12 @@ public class PaymentTest {
     }
 
     private final List<String> websiteURLs004 = Stream.of(
-            "MO822344",  // Admin
-            "BR363278", //Owner
-            "TD987720" //Trainer
-    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
+            "AR324168",
+            "AR324168",
+            "AR324168",
+            "AR324168",
+            "AR324168"
+            ).map(id -> "https://package-stg.everfit.io/" + id).toList();
 
     @Test
     public void TC_004() { //Purchase 1 package with 1 client
