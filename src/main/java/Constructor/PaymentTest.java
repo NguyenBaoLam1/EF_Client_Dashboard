@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -218,8 +219,6 @@ public class PaymentTest {
             paymentPage.switchToNewestWindow();
             driver.get(URL);
             driver.manage().window().maximize();
-            paymentPageMP.signUp();
-            paymentPageMP.verifyEmail();
             paymentPageMP.logout();
             paymentPageMP.loginCurrentAccount();
             paymentPageMP.enterCardDetails();
@@ -241,9 +240,32 @@ public class PaymentTest {
 //        paymentPageMP.enterCardDetails();
 //        paymentPageMP.enterBillingDetails();
 //    }
+    private final List<String> websiteURLs005 = Stream.of(
+            "GH433514"
+    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
+//    private final List<String> account123 = Stream.of(
+//            "AR324168",
+//            "AR324168",
+//            "AR324168",
+//            "AR324168",
+//            "AR324168"
+//    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
+    List<String> messages = Arrays.asList(
+            "lamnguyenbao+8stg433@everfit.io",
+            "lamnguyenbao+8stg555@everfit.io",
+            "lamnguyenbao+8stg377@everfit.io",
+            "lamnguyenbao+8stg844@everfit.io",
+            "lamnguyenbao+8stg546@everfit.io");
     @Test
     public void TC_test004() {
-
+        for (String URL : websiteURLs005) {
+            // Fetch the first URL in the pair
+            driver.get(URL);
+            driver.manage().window().maximize();
+            for (String account : messages) {
+                paymentPageMP.loginSpecificAccount(account);
+            }
+        }
     }
 
     @After

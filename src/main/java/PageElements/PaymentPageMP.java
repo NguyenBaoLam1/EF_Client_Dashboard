@@ -208,4 +208,38 @@ public class PaymentPageMP extends BasePage {
         click(HEADER_AUTH);
         click(LOGOUT);
     }
+    private final By JOIN_WAITLIST = By.xpath("//button[text()='Join Waitlist']");
+    private final By CANCEL_REQUEST = By.xpath("//button[text()='Cancel request']");
+    private final By HELP_TEXT = By.xpath("//p[text()='Click here to join the waitlist for this package.']");
+    private final By CLOSE_TOAST = By.xpath("//div[@class= 'ml-2 cursor-pointer']");
+    private final By TOAST_MESSSAGE = By.xpath("//span[text()= 'Your request has been sent successfully.']");
+
+    public void loginSpecificAccount(String specificEmail) {
+        click(HEADER_AUTH);
+        try {
+            WebElement signUpElement = new WebDriverWait(driver, Duration.ofSeconds(1))
+                    .until(ExpectedConditions.visibilityOfElementLocated(LOGIN));
+            signUpElement.click();
+        } catch (TimeoutException e) {
+            WebElement logoutElement = new WebDriverWait(driver, Duration.ofSeconds(1))
+                    .until(ExpectedConditions.visibilityOfElementLocated(LOGOUT));
+            logoutElement.click();
+            click(HEADER_AUTH);
+            click(LOGIN);
+        }
+        waitForVisibleOf(EMAIL);
+        sendKeys(EMAIL,specificEmail);
+        sendKeys(PASSWORD,"Pass1234!");
+        click(LOGIN_CONFIRM);
+        waitForVisibleOf(HELP_TEXT);
+        scrollIntoView(HELP_TEXT);
+        sleep(1000);
+        waitForVisibleOf(JOIN_WAITLIST);
+        click(JOIN_WAITLIST);
+        waitForVisibleOf(TOAST_MESSSAGE);
+        click(CLOSE_TOAST);
+        waitForInvisibleOf(TOAST_MESSSAGE);
+        sleep(1000);
+        System.out.println("Account join waitlist done:"+ specificEmail);
+    }
     }

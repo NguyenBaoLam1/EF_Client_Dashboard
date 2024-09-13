@@ -51,7 +51,9 @@ public class BasePage {
     protected void waitForVisibleOf(By elementLocator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
     }
-
+    protected void waitForInvisibleOf(By elementLocator) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(elementLocator));
+    }
     public static void sleep(int time) {
         try {
             Thread.sleep(time);
