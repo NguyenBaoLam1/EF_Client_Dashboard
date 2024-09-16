@@ -240,32 +240,46 @@ public class PaymentTest {
 //        paymentPageMP.enterCardDetails();
 //        paymentPageMP.enterBillingDetails();
 //    }
-    private final List<String> websiteURLs005 = Stream.of(
-            "GH433514"
-    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
-//    private final List<String> account123 = Stream.of(
-//            "AR324168",
-//            "AR324168",
-//            "AR324168",
-//            "AR324168",
-//            "AR324168"
-//    ).map(id -> "https://package-stg.everfit.io/" + id).toList();
-    List<String> messages = Arrays.asList(
-            "lamnguyenbao+8stg433@everfit.io",
-            "lamnguyenbao+8stg555@everfit.io",
-            "lamnguyenbao+8stg377@everfit.io",
-            "lamnguyenbao+8stg844@everfit.io",
-            "lamnguyenbao+8stg546@everfit.io");
+    List<String> listEmail = Arrays.asList(
+            "lamnguyenbao+dev46@everfit.io",
+            "lamnguyenbao+dev10@everfit.io",
+            "lamnguyenbao+d889@everfit.io",
+            "lamnguyenbao+d674@everfit.io",
+            "lamnguyenbao+d492@everfit.io",
+            "lamnguyenbao+dev26@everfit.io",
+            "lamnguyenbao+8d1@everfit.io",
+            "lamnguyenbao+8d51@everfit.io",
+            "lamnguyenbao+8d50@everfit.io",
+            "lamnguyenbao+85atd540@everfit.io",
+            "lamnguyenbao+dev49@everfit.io",
+            "lamnguyenbao+85atd668@everfit.io",
+            "lamnguyenbao+85atd442@everfit.io",
+            "lamnguyenbao+85atd528@everfit.io",
+            "lamnguyenbao+85atd208@everfit.io",
+            "lamnguyenbao+85atd370@everfit.io"
+    );
     @Test
     public void TC_test004() {
-        for (String URL : websiteURLs005) {
-            // Fetch the first URL in the pair
-            driver.get(URL);
+        String websiteURL005 = "https://package-dev.everfit.io/AU769459";
+            driver.get(websiteURL005);
             driver.manage().window().maximize();
-            for (String account : messages) {
-                paymentPageMP.loginSpecificAccount(account);
-            }
+            for (String email : listEmail) {
+                paymentPageMP.loginSpecificAccount(email);
+                paymentPageMP.joinWaitlist();
+                System.out.println("Submit Waitlist Sucessfull= " + email);
         }
+    }
+
+    @Test
+    public void TC_test005() {
+        String websiteURL006 = "https://package-dev.everfit.io/AU769459";
+        driver.get(websiteURL006);
+            driver.manage().window().maximize();
+            for (String email : listEmail) {
+                paymentPageMP.loginSpecificAccount(email);
+                paymentPageMP.joinIntroCall();
+                System.out.println("Submit Introcall Sucessfull= " + email);
+            }
     }
 
     @After

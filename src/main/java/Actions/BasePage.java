@@ -164,4 +164,13 @@ public class BasePage {
             return false;
         }
     }
+    public boolean waitToElementVisible(By locator) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
 }

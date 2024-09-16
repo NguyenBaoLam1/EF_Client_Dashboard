@@ -210,19 +210,24 @@ public class PaymentPageMP extends BasePage {
     }
     private final By JOIN_WAITLIST = By.xpath("//button[text()='Join Waitlist']");
     private final By CANCEL_REQUEST = By.xpath("//button[text()='Cancel request']");
-    private final By HELP_TEXT = By.xpath("//p[text()='Click here to join the waitlist for this package.']");
+    private final By HT_WAITLIST = By.xpath("//p[text()='Click here to join the waitlist for this package.']");
+    private final By JOINED_WAITLIST = By.xpath("//div[text()='Added to waitlist. Coach will notify you when this service is available.']");
+    private final By CONFIRM_CANCEL_REQUEST = By.xpath("//button[text()='Yes, cancel my request']");
+    private final By TOTAL = By.xpath("//span[text()='Total']");
+    private final By HOME = By.xpath("//a[text()='Home']");
+
     private final By CLOSE_TOAST = By.xpath("//div[@class= 'ml-2 cursor-pointer']");
-    private final By TOAST_MESSSAGE = By.xpath("//span[text()= 'Your request has been sent successfully.']");
+    private final By TOAST_SUBMIT = By.xpath("//span[text()= 'Your request has been sent successfully.']");
+    private final By TOAST_CANCEL = By.xpath("//span[text()= 'Your Waitlist request has been cancelled.']");
+
 
     public void loginSpecificAccount(String specificEmail) {
         click(HEADER_AUTH);
-        try {
-            WebElement signUpElement = new WebDriverWait(driver, Duration.ofSeconds(1))
-                    .until(ExpectedConditions.visibilityOfElementLocated(LOGIN));
+        if (waitToElementVisible(LOGIN)) {
+            WebElement signUpElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(LOGIN));
             signUpElement.click();
-        } catch (TimeoutException e) {
-            WebElement logoutElement = new WebDriverWait(driver, Duration.ofSeconds(1))
-                    .until(ExpectedConditions.visibilityOfElementLocated(LOGOUT));
+        } else if (waitToElementVisible(LOGOUT)) {
+            WebElement logoutElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(LOGOUT));
             logoutElement.click();
             click(HEADER_AUTH);
             click(LOGIN);
@@ -231,15 +236,54 @@ public class PaymentPageMP extends BasePage {
         sendKeys(EMAIL,specificEmail);
         sendKeys(PASSWORD,"Pass1234!");
         click(LOGIN_CONFIRM);
-        waitForVisibleOf(HELP_TEXT);
-        scrollIntoView(HELP_TEXT);
-        sleep(1000);
-        waitForVisibleOf(JOIN_WAITLIST);
-        click(JOIN_WAITLIST);
-        waitForVisibleOf(TOAST_MESSSAGE);
+        waitForInvisibleOf(PASSWORD);
+
+    }
+    public void joinWaitlist() {
+        if(waitToElementVisible(JOINED_WAITLIST)) {
+            scrollIntoView(HOME);
+            sleep(500);
+            click(CANCEL_REQUEST);
+            click(CONFIRM_CANCEL_REQUEST);
+            waitForVisibleOf(HT_WAITLIST);
+            click(JOIN_WAITLIST);
+        }
+        else if (waitToElementVisible(HT_WAITLIST)) {
+            scrollIntoView(HOME);
+            sleep(500);
+            click(JOIN_WAITLIST);
+        }
+        waitForVisibleOf(TOAST_SUBMIT);
         click(CLOSE_TOAST);
-        waitForInvisibleOf(TOAST_MESSSAGE);
-        sleep(1000);
-        System.out.println("Account join waitlist done:"+ specificEmail);
+        waitForInvisibleOf(TOAST_CANCEL);
+        click(CLOSE_TOAST);
+    }
+    private final By HT_INTROCALL = By.xpath("//p[text()='Click to request a free introduction call with this coach.']");
+    private final By JOIN_INTROCALL = By.xpath("(//button[@type = 'button'])[2]");
+    private final By YOUR_PHONE_NUMBER = By.xpath("//input[@name='phone']");
+    private final By SUBMIT = By.xpath("//button[text()='Submit']");
+    private final By JOINED_INTROCALL = By.xpath("//div[text()='Your request has been sent, coach will contact you to consult about this service.']");
+    public void joinIntroCall() {
+        if(waitToElementVisible(JOINED_INTROCALL)) {
+            scrollIntoView(HOME);
+            sleep(500);
+            click(CANCEL_REQUEST);
+            click(CONFIRM_CANCEL_REQUEST);
+            waitForVisibleOf(HT_INTROCALL);
+            click(JOIN_INTROCALL);
+        }
+        else if (waitToElementVisible(HT_INTROCALL)) {
+            scrollIntoView(HOME);
+            sleep(500);
+            click(JOIN_INTROCALL);
+        }
+        waitToElementVisible(YOUR_PHONE_NUMBER);
+        sendKeys(YOUR_PHONE_NUMBER,"18237521651");
+        click(SUBMIT);
+        waitForInvisibleOf(YOUR_PHONE_NUMBER);
+        waitForVisibleOf(TOAST_SUBMIT);
+        click(CLOSE_TOAST);
+        waitForInvisibleOf(TOAST_CANCEL);
+        click(CLOSE_TOAST);
     }
     }
