@@ -241,12 +241,49 @@ public class PaymentTest {
 //        paymentPageMP.enterBillingDetails();
 //    }
     List<String> listEmail = Arrays.asList(
-            "lamnguyenbao+dev46@everfit.io",
-            "lamnguyenbao+dev10@everfit.io",
+//            "lamnguyenbao+dev1@everfit.io",
+//            "lamnguyenbao+dev2@everfit.io",
+//            "lamnguyenbao+dev3@everfit.io",
+//            "lamnguyenbao+dev4@everfit.io",
+//            "lamnguyenbao+dev5@everfit.io",
+//            "lamnguyenbao+dev6@everfit.io",
+//            "lamnguyenbao+dev7@everfit.io",
+//            "lamnguyenbao+dev8@everfit.io",
+//            "lamnguyenbao+dev9@everfit.io",
+//            "lamnguyenbao+dev10@everfit.io",
+//            "lamnguyenbao+dev11@everfit.io",
+//            "lamnguyenbao+dev12@everfit.io",
+//            "lamnguyenbao+dev13@everfit.io",
+//            "lamnguyenbao+dev14@everfit.io",
+//            "lamnguyenbao+dev15@everfit.io",
+//            "lamnguyenbao+dev16@everfit.io",
+//            "lamnguyenbao+dev17@everfit.io",
+//            "lamnguyenbao+dev18@everfit.io",
+//            "lamnguyenbao+dev19@everfit.io",
+//            "lamnguyenbao+dev20@everfit.io",
+//            "lamnguyenbao+dev22@everfit.io",
+//            "lamnguyenbao+dev23@everfit.io",
+//            "lamnguyenbao+dev24@everfit.io",
+//            "lamnguyenbao+dev25@everfit.io",
+//            "lamnguyenbao+dev26@everfit.io",
+//            "lamnguyenbao+dev27@everfit.io",
+//            "lamnguyenbao+dev28@everfit.io",
+//            "lamnguyenbao+dev29@everfit.io",
+//            "lamnguyenbao+dev30@everfit.io",
+//            "lamnguyenbao+dev31@everfit.io",
+//            "lamnguyenbao+dev32@everfit.io",
+//            "lamnguyenbao+dev33@everfit.io",
+//            "lamnguyenbao+dev34@everfit.io",
+//            "lamnguyenbao+dev35@everfit.io",
+//            "lamnguyenbao+dev36@everfit.io",
+//            "lamnguyenbao+dev37@everfit.io",
+//            "lamnguyenbao+dev38@everfit.io",
+//            "lamnguyenbao+dev39@everfit.io",
+//            "lamnguyenbao+dev40@everfit.io",
+//            "lamnguyenbao+dev10@everfit.io",
             "lamnguyenbao+d889@everfit.io",
             "lamnguyenbao+d674@everfit.io",
             "lamnguyenbao+d492@everfit.io",
-            "lamnguyenbao+dev26@everfit.io",
             "lamnguyenbao+8d1@everfit.io",
             "lamnguyenbao+8d51@everfit.io",
             "lamnguyenbao+8d50@everfit.io",
@@ -260,7 +297,7 @@ public class PaymentTest {
     );
     @Test
     public void TC_test004() {
-        String websiteURL005 = "https://package-dev.everfit.io/AU769459";
+        String websiteURL005 = "https://package-dev.everfit.io/OK914447";
             driver.get(websiteURL005);
             driver.manage().window().maximize();
             for (String email : listEmail) {
@@ -272,7 +309,7 @@ public class PaymentTest {
 
     @Test
     public void TC_test005() {
-        String websiteURL006 = "https://package-dev.everfit.io/AU769459";
+        String websiteURL006 = "https://package-dev.everfit.io/EX295522";
         driver.get(websiteURL006);
             driver.manage().window().maximize();
             for (String email : listEmail) {
